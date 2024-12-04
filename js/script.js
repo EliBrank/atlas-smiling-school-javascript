@@ -1,23 +1,8 @@
-function getQuotes() {
-  displayLoader();
-  $.ajax({
-    url: 'https://smileschool-api.hbtn.info/quotes',
-    method: 'GET',
-    success: function(response) {
-      const quotes = [];
-      response.forEach(entry => {
-        
-      });
-    }
-
-  });
-}
-
-function buildCarouselItem(item) {
+function buildMultiCarouselItem(item) {
   const $slide = $('div').addClass('swiper-slide d-flex justify-content-center');
   const $card = $('div').addClass('card');
   const $thumbnail = $('img').attr({
-    'src': item.pic_url,
+    'src': item.thumb_url,
     'alt': 'Video thumbnail'
   }).addClass('card-img-top');
   const $playButtonContainer = $('div').addClass('card-img-overlay text-center');
@@ -36,7 +21,7 @@ function buildCarouselItem(item) {
     .text('Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod.');
   const $videoAuthorContainer = $('div').addClass('creator d-flex align-self-center');
   const $videoAuthorPhoto = $('img').attr({
-    'src': item.thumb_url,
+    'src': item.pic_url,
     'alt': 'Creator of Video',
     'width': '30px',
   }).addClass('rounded-circle');
@@ -48,13 +33,13 @@ function buildCarouselItem(item) {
   const $videoRating = $('div').addClass('rating');
 
   // add stars to rating
-  for (const i = 0; i < 5; i++) {
-    const $starOn = ('img').attr({
+  for (let i = 0; i < 5; i++) {
+    const $starOn = $('img').attr({
       'src': 'images/star_on.png',
       'alt': 'star on',
       'width': '15px'
     });
-    const $starOff = ('img').attr({
+    const $starOff = $('img').attr({
       'src': 'images/star_off.png',
       'alt': 'star off',
       'width': '15px'
@@ -73,9 +58,25 @@ function buildCarouselItem(item) {
   $cardBody.append($cardTitle, $cardText, $videoAuthorContainer, $videoInfo);
   $card.append($thumbnail, $playButtonContainer, $cardBody);
   $slide.append($card);
+
+  return ($slide);
 }
 
-function buildMultiItemCarousel() {
+
+function buildMultiItemCarousel(section) {
+
+  $.ajax({
+    url: 'https://smileschool-api.hbtn.info/' + section,
+    method: 'GET',
+    // api returns array of objects, iterate through
+    success: function(response) {
+      const carouselContainer = document.querySelector(`#carousel-${section} .swiper-wrapper`);
+      response.forEach(item => {
+        carouselContainer.append(buildMultiCarouselItem(item));
+      });
+    }
+  });
+
   const swiper = new Swiper('.swiper-container', {
     slidesPerView: 1,
     spaceBetween: 30,
@@ -96,5 +97,5 @@ function buildMultiItemCarousel() {
 }
 
 $(document).ready(function() {
-  buildMultiItemCarousel();
+  buildMultiItemCarousel('latest-videos');
 });
