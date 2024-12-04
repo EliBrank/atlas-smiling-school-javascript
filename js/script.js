@@ -13,7 +13,28 @@ function getQuotes() {
   });
 }
 
+function buildMultiItemCarousel() {
+  const swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
+    breakpoints: {
+      576: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 4
+      }
+    }
+  });
+}
+
+
 
 $(document).ready(function() {
-
+  buildMultiItemCarousel();
 });

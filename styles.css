@@ -17,10 +17,12 @@
   --faq-pad-outer: 7vw;
 }
 
+
 /* General Styles  */
 
 .body {
   font-family: var(--font-family-1);
+  box-sizing: content-box;
 }
 
 .main-color {
@@ -54,6 +56,54 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+/*Swiper*/
+
+.swiper-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.swiper-slide {
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.swiper-wrapper {
+  display: flex;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  top: 0;
+  bottom: 0;
+}
+
+@media screen and (width >= 576px) {
+  .swiper-button-next {
+    transform: translateX(40px);
+  }
+
+  .swiper-button-prev {
+    transform: translateX(-40px);
+  }
+}
+
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  color: grey;
+}
+
+.swiper-button-next::after {
+  content: 'next';
+}
+
+.swiper-button-prev::after {
+  content: 'prev';
+}
+
 
 /* Header / Hero Styles */
 
@@ -405,6 +455,15 @@
   .section .card-img-overlay {
     /* top: 25px; */
     top: 5%;
+  }
+}
+
+
+/*Latest Videos Section*/
+
+@media screen and (768px <= width < 992px) {
+  .latest-videos.container {
+    width: 540px;
   }
 }
 
