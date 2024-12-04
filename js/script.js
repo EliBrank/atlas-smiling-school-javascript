@@ -54,7 +54,7 @@ function buildMultiItemCarousel(section) {
     }
   });
 
-  const swiper = new Swiper('.swiper-container', {
+  new Swiper(`#carousel-${section}`, {
     slidesPerView: 1,
     spaceBetween: 30,
     loop: true,
