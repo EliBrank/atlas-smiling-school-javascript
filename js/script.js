@@ -73,6 +73,30 @@ function buildMultiItemCarousel(section) {
   });
 }
 
+
+function searchVideos() {
+  const $searchQuery = $('#search-query');
+  const $topicFilter = $('#selected-topic-filter');
+  const $sortCategory = $('#selected-sort-category');
+}
+
+$('.dropdown-menu .dropdown-item').on('click', function(event) {
+  event.preventDefault();
+
+  const $textSelection = $(this).text;
+
+  // from clicked element, go to nearest selected-dropdown class span (within same dropdown)
+  $(this).closest('.dropdown').find('.selected-dropdown').text($textSelection);
+
+  searchVideos();
+});
+
+
+
+
+
+
+
 $(document).ready(function() {
   buildMultiItemCarousel('latest-videos');
 });
