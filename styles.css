@@ -472,7 +472,8 @@
 /*Latest Videos Section*/
 
 @media screen and (768px <= width < 992px) {
-  .latest-videos.container {
+  .latest-videos.container,
+  .popular-tutorials.container {
     width: 540px;
   }
 }

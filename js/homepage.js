@@ -1,4 +1,5 @@
 $(document).ready(function() {
-  buildMultiItemCarousel('latest-videos');
   buildSingleItemCarousel('quotes');
+  buildMultiItemCarousel('popular-tutorials');
+  buildMultiItemCarousel('latest-videos');
 });
