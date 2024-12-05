@@ -1,6 +1,6 @@
 # Holberton Smiling School (Bootstrap Project)
 
-Access a live version of the page at [this link](elibrank.github.io/atlas-smiling-school-javascript)!
+Access a live version of the page at [this link](elibrank.github.io/atlas-smiling-school-javascript/homepage.html)!
 
 This group of web pages were coded from scratch with the help of the Boostrap Framework and based on some design models given on Figma.
 
