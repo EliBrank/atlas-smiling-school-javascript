@@ -12,13 +12,8 @@ $(document).ready(function() {
     populateCourseVideos();
   });
 
-  $('#search-query').on('keypress', function(event) {
-    // checks if keypress (event) was enter (num code 13)
-    if (event.which === 13) {
-      event.preventDefault();
-
-      populateCourseVideos();
-    }
+  $('#search-query').on('input', function(event) {
+    populateCourseVideos();
   });
 
 });
