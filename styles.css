@@ -93,7 +93,13 @@
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  color: grey;
+  --swiper-button-color: grey;
+
+  color: var(--swiper-button-color);
+}
+
+#quotes-next::after, #quotes-prev::after {
+  --swiper-button-color: white;
 }
 
 .swiper-button-next::after {
@@ -266,6 +272,10 @@
 
 .quote-text {
   padding-left: 53px;
+}
+
+.quote-photo {
+  width: 160px;
 }
 
 .quotes .row [class*="col"] {
