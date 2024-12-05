@@ -1,6 +1,6 @@
-function buildMultiCarouselItem(item) {
-  const $slide = $('<div>').addClass('swiper-slide d-flex justify-content-center');
-  $slide.html(`
+function buildVideoElement(item, wrapperClasses = "") {
+  const $videoElement = $('<div>').addClass(wrapperClasses);
+  $videoElement.html(`
     <div class="card">
       <img src=${item.thumb_url} class="card-img-top" alt="Video thumbnail" />
       <div class="card-img-overlay text-center">
@@ -22,7 +22,7 @@ function buildMultiCarouselItem(item) {
     </div>
   `);
 
-  let $videoRating = $slide.find('.rating')
+  let $videoRating = $videoElement.find('.rating')
 
   // create stars
   // initialize empty object of length 5, loop through values
@@ -36,21 +36,29 @@ function buildMultiCarouselItem(item) {
 
   $videoRating.append(stars);
 
-  return ($slide);
+  return ($videoElement);
 }
 
 
 function buildMultiItemCarousel(section) {
+  const $loader = $(`#${section}-loader`).addClass('loader');
 
   $.ajax({
     url: 'https://smileschool-api.hbtn.info/' + section,
     method: 'GET',
     // api returns array of objects, iterate through
     success: function(response) {
-      const carouselContainer = $(`#carousel-${section} .swiper-wrapper`);
+      const $carouselContainer = $(`#carousel-${section} .swiper-wrapper`);
       response.forEach(item => {
-        carouselContainer.append(buildMultiCarouselItem(item));
+        const swiperItemClasses = 'swiper-slide d-flex justify-content-center';
+        $carouselContainer.append(buildVideoElement(item, swiperItemClasses));
       });
+    },
+    error: function(xhr, status, error) {
+      console.error('error loading carousel:', error);
+    },
+    complete: function() {
+      $loader.removeClass('loader');
     }
   });
 
@@ -74,29 +82,39 @@ function buildMultiItemCarousel(section) {
 }
 
 
-function searchVideos() {
-  const $searchQuery = $('#search-query');
-  const $topicFilter = $('#selected-topic-filter');
-  const $sortCategory = $('#selected-sort-category');
+function populateCourseVideos() {
+  const $searchQuery = $('#search-query').val();
+  const $topicFilter = $('#selected-topic-filter').text();
+  const $sortCategory = $('#selected-sort-category').text().replace(' ', '_');
+
+  if ($topicFilter === 'All') {
+    $topicFilter.text('');
+  }
+
+  const $loader = $('#course-video-loader').addClass('loader');
+
+  $.ajax({
+    url: 'https://smileschool-api.hbtn.info/courses',
+    method: 'GET',
+    data: {
+      q: $searchQuery,
+      topic: $topicFilter,
+      sort: $sortCategory
+    },
+    success: function(response) {
+      const $courseVideoResults = $('#video-results');
+      $courseVideoResults.empty();
+      $('#num-videos').text(response.courses.length);
+      response.courses.forEach(item => {
+        const courseVideoClasses = 'col-12 col-sm-4 col-lg-3 d-flex justify-content-center';
+        $courseVideoResults.append(buildVideoElement(item, courseVideoClasses));
+      });
+    },
+    error: function(xhr, status, error) {
+      console.error('error performing search:', error);
+    },
+    complete: function() {
+      $loader.removeClass('loader');
+    }
+  })
 }
-
-$('.dropdown-menu .dropdown-item').on('click', function(event) {
-  event.preventDefault();
-
-  const $textSelection = $(this).text;
-
-  // from clicked element, go to nearest selected-dropdown class span (within same dropdown)
-  $(this).closest('.dropdown').find('.selected-dropdown').text($textSelection);
-
-  searchVideos();
-});
-
-
-
-
-
-
-
-$(document).ready(function() {
-  buildMultiItemCarousel('latest-videos');
-});
